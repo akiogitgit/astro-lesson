@@ -167,6 +167,12 @@ pnpm astro add vue
 pnpm astro add svelte
 ```
 
+### Tailwind CSS 導入
+
+```
+pnpm astro add tailwind
+```
+
 ## 🚀 Project Structure
 
 Inside of your Astro project, you'll see the following folders and files:
