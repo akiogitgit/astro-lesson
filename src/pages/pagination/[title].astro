@@ -4,23 +4,32 @@ import Layout from "../../layouts/Layout.astro";
 import type { Post } from "../../types/post";
 
 // ダイナミックルーティングは、getStaticPaths必須
-export async function getStaticPaths() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts")
-  const posts:Post[] = await res.json()
+// export async function getStaticPaths() {
+//   const res = await fetch("https://jsonplaceholder.typicode.com/posts")
+//   const posts:Post[] = await res.json()
 
-  return posts.map(post=>{
-    return {
-      params: {
-        title:post.title
-      },
-      props: { post } // propsも渡せる
-    }
-  })
+//   return posts.map(post=>{
+//     return {
+//       params: {
+//         title:post.title
+//       },
+//       props: { post } // propsも渡せる
+//     }
+//   })
+// }
 
-}
+// const {title} = Astro.params
+// const {post} = Astro.props
+
+// SSR
 
 const {title} = Astro.params
-const {post} = Astro.props
+
+const res = await fetch(`https://jsonplaceholder.typicode.com/posts`)
+// const post:Post = await res.json()
+const posts:Post[] = await res.json()
+const post = posts.filter(post=>post.title == title)[0]
+
 
 ---
 

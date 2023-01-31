@@ -1,7 +1,16 @@
 import { defineConfig } from 'astro/config'
+import node from '@astrojs/node'
 
-// https://astro.build/config
 // portも変えられる
-// export default defineConfig({})
+// export default defineConfig({ server: { port: 3000 } })
 
-export default defineConfig({ server: { port: 3000 } })
+// pnpm astro add nodeすると、SSRの設定が追加される
+export default defineConfig({
+  server: {
+    port: 3000,
+  },
+  output: 'server',
+  adapter: node({
+    mode: 'standalone', // standalone, middleware
+  }),
+})
