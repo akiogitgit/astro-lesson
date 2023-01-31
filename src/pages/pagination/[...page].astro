@@ -1,0 +1,72 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import type { Post } from "../../types/post";
+import type { Page, GetStaticPathsOptions } from "astro"
+
+// Propsは型定義すると、Astro.propsに型が付く
+type Props = {
+  page: Page<Post>;
+  idididid: number
+  idididid2: number
+}
+
+// ページネーションの設定、propsに pageが渡る
+export async function getStaticPaths({ paginate }:GetStaticPathsOptions) {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts")
+  const posts:Post[] = await res.json()
+  return paginate(posts, {pageSize: 5})
+
+  // pagenate(data, options) options は pageSize, params, propsがある
+}
+
+const { page } = Astro.props
+
+---
+
+<Layout>
+  <h1>ページネーション個別ページ</h1>
+
+  <!-- page.start, end, total, currentPage, size, lastPage -->
+  <p>{page.start}~{page.end} 番目を表示</p>
+
+  <!-- page.dataにはこのページで使う要素が入っている -->
+  {page.data.map(post => (
+    <p>
+      <a href={`/pagination/${post.title}`}>
+        {post.id}
+        {post.title}
+      </a>
+    </p>
+  ))}
+
+  <!-- ページ移動ボタン -->
+  <div class="btn-group">
+    {page.url.prev ? (
+      <a href={page.url.prev} class="btn">前へ</a>
+    ) : <div/>}
+    {page.url.next ? (
+      <a href={page.url.next} class="btn">次へ</a>
+    ) : <div/>}
+  </div>
+
+  <p style="text-align: center;">
+    {page.currentPage} / {page.lastPage} ページ
+  </p>
+  
+</Layout>
+
+<style>
+  .btn-group {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .btn {
+    background-color: skyblue;
+    border-radius: 7px;
+    padding: 7px 20px;
+    cursor: pointer;
+    color: black;
+    font-weight: 600;
+  }
+</style>
