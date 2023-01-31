@@ -1,7 +1,23 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import reactImage from "../../public/react.png"
+console.log("server") // サーバーサイド
+
 ---
 
 <Layout>
   <h1>about</h1>
+  <img src={reactImage} alt="" />
+  <img src="/react.png" alt="" />
+  <div>
+    <button id="btn">click</button>
+  </div>
 </Layout>
+
+<!-- クライアントサイド -->
+<script>
+  console.log("client")
+  document.getElementById("btn")?.addEventListener("click",()=>{
+    alert("Click")
+  })
+</script>
