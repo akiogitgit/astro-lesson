@@ -4,13 +4,106 @@
 npm create astro@latest -- --template basics
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/s/github/withastro/astro/tree/latest/examples/basics)
+## Astro 概要
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+デフォルトで SG、JavaScript を出来るだけ取り除いて爆速になる、MPA
 
-![basics](https://user-images.githubusercontent.com/4677417/186188965-73453154-fdec-4d6b-9c34-cb35c248ae5b.png)
+- コンポーネントアイランド： 高速なウェブサイトを構築するための新しいウェブアーキテクチャー。
+- サーバーファーストの API 設計： ユーザーのデバイスから高コストのハイドレーションをなくします。
+- デフォルトでゼロ JS： サイトを遅くする JavaScript ランタイムオーバーヘッドはありません。
+- エッジ対応： Deno や Cloudflare のようなグローバルなエッジを含め、どこでもデプロイできます。
+- カスタマイズ可能： Tailwind、MDX、その他 100 以上のインテグレーションから選択可能です。
+- 特定の UI に依存しない： React、Preact、Svelte、Vue、Solid、Lit などをサポートします。
 
+## Astro を使う理由
+
+- コンテンツ重視
+  - 近年のフロントエンドのフレームワークが Figma のような操作性重視の Web アプリケーションにフォーカスしているのに対し、Astro はコンテンツが豊富なサイト向けに設計されている
+- サーバーファースト
+  - サーバーサイドレンダリングを最大限活用する。Next.js や Nuxt の SSR がパフォーマンス懸念への対処として限定的に使用されるのと対照的
+- デフォルトで高速
+  - ロードが遅くなる原因となる JavaScript をクライアントで起動しない(アイランドを除く)
+- 簡単に使える
+  - React、Svelte、Vue などの UI コンポーネント言語が使え、独自の Astro UI 言語も用意されている
+- 充実した機能と柔軟性
+  - オールインワンであり、多くのインテグレーションにより拡張可能
+
+## SG
+
+### ダイナミックルーティング
+
+getStaticPathsが必要になる
+pages/posts/[id].astro
+
+```js
+export async function getStaticPaths() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts")
+  const posts:Post[] = await res.json()
+
+  return posts.map(post=>{
+    return {
+      params: {
+        id:post.id
+      },
+      props: { post }
+    }
+  })
+
+}
+
+```
+
+ページネーション
+Astroはページネーション機能が備わっていて、簡単に実装することができる
+
+ページネーションの設定
+```js
+export async function getStaticPaths({ paginate }:GetStaticPathsOptions) {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts")
+  const posts:Post[] = await res.json()
+  return paginate(posts, {pageSize: 5})
+}
+
+// Propsで、pageデータを取得
+const { page } = Astro.props
+
+// page.dataにデータ(post)が配列で入る
+// 他の要素
+// page.start, end, total, currentPage, size, lastPage 
+
+```
+
+
+## SSR
+
+Astro での SSR はページ単位でのみ利用できる
+
+SSR を使うには、サーバーランタイムが必要
+
+```
+pnpm astro add node
+```
+
+プロジェクトで SSR を有効にする。
+
+```js
+export default defineConfig({
+  server: {
+    port: 3000,
+  },
+  output: 'server',
+  adapter: node({
+    mode: 'standalone',
+  }),
+})
+```
+
+### SSR のダイナミックルーティング
+
+（なんか不安定な気がする）
+
+SSR では、getStaticPaths を使わないため、そのコードを削除する
+代わりに、毎回 URL パラメータの[id]を使い、1 つだけデータを取得する
 
 ## 🚀 Project Structure
 
