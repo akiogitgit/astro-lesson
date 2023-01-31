@@ -9,11 +9,14 @@ const posts:Post[] = await res.json()
 
 <Layout>
   <h1>posts</h1>
-  <!-- {JSON.stringify(posts)} -->
   <ul>
     {posts.map(post=>(
       // 補完効かない
-      <li>{post.title}</li>
+      <li>
+        <a href={`/posts/${post.id}`}>
+          {post.title}
+          </a>
+        </li>
     ))}
   </ul>
 </Layout>
