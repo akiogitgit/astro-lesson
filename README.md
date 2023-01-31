@@ -107,7 +107,7 @@ SSR では、getStaticPaths を使わないため、そのコードを削除す�
 使えるのはコンポーネントのみ
 pages 直下は、.astro のみ使える
 
-## React 導入
+### React 導入
 
 ```
 pnpm astro add react
@@ -151,6 +151,18 @@ astro ファイルで使う
 <Counter client:load /> // ページ読み込み時にJSがインポート
 <Counter client:visible /> // スクロールされて見えた時にJSがインポート
 
+```
+
+### Vue 導入
+
+```
+pnpm astro add vue
+```
+
+### Svelte 導入
+
+```
+pnpm astro add svelte
 ```
 
 ## 🚀 Project Structure
