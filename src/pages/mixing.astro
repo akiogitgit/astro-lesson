@@ -1,0 +1,18 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Counter } from "../components/Counter";
+import { TodoList } from "../components/TodoList";
+import CounterVue from "../components/CounterVue.vue";
+import TodoListVue from "../components/TodoListVue.vue";
+---
+
+<Layout title="reactページ">
+  <h1>react</h1>
+  <!-- カウンターが動かない -->
+  <Counter/>
+  <!-- 動く -->
+  <Counter client:load /> <!-- ページ読み込み時にJSがインポート -->
+  <TodoList client:visible /> <!-- スクロールされて見えた時にJSがインポート -->
+  <CounterVue client:load />
+  <TodoListVue client:load />
+</Layout>
