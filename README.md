@@ -98,7 +98,7 @@ export default defineConfig({
 
 ### SSR のダイナミックルーティング
 
-（なんか不安定な気がする）
+（ページネーション上手く行かない気がする）
 
 SSR では、getStaticPaths を使わないため、そのコードを削除する
 代わりに、毎回 URL パラメータの[id]を使い、1 つだけデータを取得する
@@ -110,6 +110,7 @@ pages 直下は、.astro のみ使える
 https://docs.astro.build/ja/core-concepts/framework-components/
 
 ### React 導入
+クイックフィックスが効かない？ useCallback等の依存配列を教えてくれない
 
 ```
 pnpm astro add react
@@ -165,6 +166,12 @@ pnpm astro add vue
 
 ```
 pnpm astro add svelte
+````
+
+### Tailwind CSS 導入
+
+```
+pnpm astro add tailwind
 ```
 
 ## 🚀 Project Structure
