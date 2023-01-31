@@ -4,6 +4,9 @@ import { Counter } from "../components/Counter";
 import { TodoList } from "../components/TodoList";
 import CounterVue from "../components/CounterVue.vue";
 import TodoListVue from "../components/TodoListVue.vue";
+import CounterSvelte from "../components/CounterSvelte.svelte";
+import TodoListSvelte from "../components/TodoListSvelte.svelte";
+
 ---
 
 <Layout title="reactページ">
@@ -15,4 +18,6 @@ import TodoListVue from "../components/TodoListVue.vue";
   <TodoList client:visible /> <!-- スクロールされて見えた時にJSがインポート -->
   <CounterVue client:load />
   <TodoListVue client:load />
+  <CounterSvelte client:load />
+  <TodoListSvelte client:load />
 </Layout>

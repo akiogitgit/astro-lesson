@@ -74,6 +74,7 @@ const { page } = Astro.props
 ## SSR
 
 Astro での SSR はページ単位でのみ利用できる
+https://docs.astro.build/ja/guides/server-side-rendering/
 
 SSR を使うには、サーバーランタイムが必要
 
@@ -106,6 +107,7 @@ SSR では、getStaticPaths を使わないため、そのコードを削除す�
 
 使えるのはコンポーネントのみ
 pages 直下は、.astro のみ使える
+https://docs.astro.build/ja/core-concepts/framework-components/
 
 ### React 導入
 
