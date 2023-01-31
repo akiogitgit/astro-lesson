@@ -1,0 +1,19 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import type { Post } from "../../types/post";
+
+const res = await fetch("https://jsonplaceholder.typicode.com/posts")
+const posts:Post[] = await res.json()
+
+---
+
+<Layout>
+  <h1>posts</h1>
+  <!-- {JSON.stringify(posts)} -->
+  <ul>
+    {posts.map(post=>(
+      // 補完効かない
+      <li>{post.title}</li>
+    ))}
+  </ul>
+</Layout>
