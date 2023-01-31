@@ -32,36 +32,35 @@ npm create astro@latest -- --template basics
 
 ### ダイナミックルーティング
 
-getStaticPathsが必要になる
+getStaticPaths が必要になる
 pages/posts/[id].astro
 
 ```js
 export async function getStaticPaths() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts")
-  const posts:Post[] = await res.json()
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+  const posts: Post[] = await res.json()
 
-  return posts.map(post=>{
+  return posts.map(post => {
     return {
       params: {
-        id:post.id
+        id: post.id,
       },
-      props: { post }
+      props: { post },
     }
   })
-
 }
-
 ```
 
 ページネーション
-Astroはページネーション機能が備わっていて、簡単に実装することができる
+Astro はページネーション機能が備わっていて、簡単に実装することができる
 
 ページネーションの設定
+
 ```js
-export async function getStaticPaths({ paginate }:GetStaticPathsOptions) {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts")
-  const posts:Post[] = await res.json()
-  return paginate(posts, {pageSize: 5})
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+  const posts: Post[] = await res.json()
+  return paginate(posts, { pageSize: 5 })
 }
 
 // Propsで、pageデータを取得
@@ -69,10 +68,8 @@ const { page } = Astro.props
 
 // page.dataにデータ(post)が配列で入る
 // 他の要素
-// page.start, end, total, currentPage, size, lastPage 
-
+// page.start, end, total, currentPage, size, lastPage
 ```
-
 
 ## SSR
 
@@ -104,6 +101,57 @@ export default defineConfig({
 
 SSR では、getStaticPaths を使わないため、そのコードを削除する
 代わりに、毎回 URL パラメータの[id]を使い、1 つだけデータを取得する
+
+## 他のライブラリ・フレームワーク導入
+
+使えるのはコンポーネントのみ
+pages 直下は、.astro のみ使える
+
+## React 導入
+
+```
+pnpm astro add react
+```
+
+```js
+import react from '@astrojs/react'
+export default defineConfig({
+  server: {
+    port: 3000,
+  },
+  integrations: [react()], // react導入
+})
+```
+
+component 作成
+
+```js
+import { useState } from 'react'
+
+export const Counter = () => {
+  const [count, setCount] = useState(0)
+
+  return (
+    <div>
+      {count}
+      <button onClick={() => setCount(count + 1)}>UP</button>
+      <button onClick={() => setCount(count - 1)}>Down</button>
+    </div>
+  )
+}
+```
+
+astro ファイルで使う
+
+```js
+~省略~
+<Counter/> // counterが発動しない
+
+// 効く
+<Counter client:load /> // ページ読み込み時にJSがインポート
+<Counter client:visible /> // スクロールされて見えた時にJSがインポート
+
+```
 
 ## 🚀 Project Structure
 

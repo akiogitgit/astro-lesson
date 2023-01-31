@@ -1,7 +1,12 @@
 import { defineConfig } from 'astro/config'
 
-// https://astro.build/config
 // portも変えられる
 // export default defineConfig({})
 
-export default defineConfig({ server: { port: 3000 } })
+import react from '@astrojs/react'
+export default defineConfig({
+  server: {
+    port: 3000,
+  },
+  integrations: [react()], // react導入
+})
